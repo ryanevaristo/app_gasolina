@@ -8,6 +8,29 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   TextEditingController _controllerAlcool = TextEditingController();
   TextEditingController _controllerGasolina = TextEditingController();
+  String _textoResultado = '';
+  String _textoResultado2 = '';
+
+  void _calcular() {
+    double precoAlcool = double.tryParse(_controllerAlcool.text);
+    double precoGasolina = double.tryParse(_controllerGasolina.text);
+
+    if (precoAlcool == null || precoGasolina == null) {
+      setState(() {
+        _textoResultado =
+            "Número Invalido, digite um numero acima de 0 e utilizando(.)";
+      });
+    } else {
+      if (precoAlcool / precoGasolina >= 0.7) {
+        setState(() {
+          _textoResultado2 = "Melhor Abastecer com Gasolina";
+        });
+      } else
+        setState(() {
+          _textoResultado2 = "Melhor Abastecer com Alcool";
+        });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +75,7 @@ class _HomeState extends State<Home> {
                 color: Colors.blue,
                 textColor: Colors.white,
                 padding: EdgeInsets.all(15),
-                onPressed: () {},
+                onPressed: _calcular,
                 child: Text(
                   "Calcular",
                   style: TextStyle(fontSize: 20),
@@ -62,8 +85,19 @@ class _HomeState extends State<Home> {
             Padding(
               padding: EdgeInsets.only(top: 20),
               child: Text(
-                "Resultado",
+                _textoResultado,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 20, left: 20),
+              child: Text(
+                _textoResultado2,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue[800],
+                ),
               ),
             )
           ]),
